@@ -80,7 +80,7 @@
     </div>
   </section>
 
-  <!-- PREVIEW SECTION COM FOTO EM ALTA DEFINIÇÃO DO DASHBOARD -->
+  <!-- PREVIEW SECTION COM CARROSSEL DE IMAGENS -->
   <section class="preview-section" id="demo">
     <div class="container">
       <div class="preview-wrapper">
@@ -88,14 +88,64 @@
           <div class="browser-dot dot-red"></div>
           <div class="browser-dot dot-yellow"></div>
           <div class="browser-dot dot-green"></div>
-          <div class="browser-url-bar">dashboard-financeiro-executivo.local/2026</div>
+          <div class="browser-url-bar" id="carouselUrlBar">1/3: 0.planilha_financeira.xlsx (Entrada de Dados)</div>
+          <div class="carousel-step-pill" id="carouselStepPill">Passo 1 de 3</div>
         </div>
-        <div class="preview-img-box">
-          <img src="img/dashboard_preview.png" alt="Interface Executiva do Dashboard Financeiro" class="preview-img">
+
+        <div class="carousel-container" id="previewCarousel">
+          <div class="carousel-track" id="carouselTrack">
+            <!-- Slide 1: A Planilha Base -->
+            <div class="carousel-slide">
+              <img src="img/0.planilha_financeira.png" alt="1. Planilha Base Excel Controle Financeiro">
+              <div class="slide-caption">
+                <span class="slide-badge">Passo 1 • A Base</span>
+                <h4>1. Planilha Excel (.xlsx) Estruturada e Sem Erros</h4>
+                <p>Onde você preenche os lançamentos com facilidade: abas por mês, categorias padronizadas e somatórios automáticos.</p>
+              </div>
+            </div>
+
+            <!-- Slide 2: Dashboard Parte Superior -->
+            <div class="carousel-slide">
+              <img src="img/1.dashboard_preview.png" alt="2. Dashboard Executivo - Visão Superior">
+              <div class="slide-caption">
+                <span class="slide-badge">Passo 2 • Inteligência Visual</span>
+                <h4>2. Dashboard Executivo: KPIs, Rosca de Gastos e Comparativo Mensal</h4>
+                <p>Basta arrastar a planilha para a tela e ver na hora: Entradas, Saídas, Saldo Líquido, Rosca por Categoria e Barras comparativas.</p>
+              </div>
+            </div>
+
+            <!-- Slide 3: Dashboard Parte Inferior -->
+            <div class="carousel-slide">
+              <img src="img/2.dashboard_preview.png" alt="3. Dashboard Executivo - Listagem e Filtros">
+              <div class="slide-caption">
+                <span class="slide-badge">Passo 3 • Controle Detalhado</span>
+                <h4>3. Tabela Completa de Lançamentos & Filtros em Tempo Real</h4>
+                <p>Pesquisa instantânea por descrição, filtro por categorias/tipo e rodapé com totalizadores dinâmicos.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Botões de Navegação Anterior / Próximo -->
+          <button class="carousel-nav-btn prev" id="carouselPrevBtn" aria-label="Imagem Anterior">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <button class="carousel-nav-btn next" id="carouselNextBtn" aria-label="Próxima Imagem">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </div>
+
+        <!-- Indicadores / Dots -->
+        <div class="carousel-dots-wrap">
+          <div class="carousel-dots" id="carouselDots">
+            <button class="dot active" data-index="0" title="1. Planilha Base"></button>
+            <button class="dot" data-index="1" title="2. Dashboard (Parte Superior)"></button>
+            <button class="dot" data-index="2" title="3. Dashboard (Parte Inferior)"></button>
+          </div>
         </div>
       </div>
-      <p style="text-align: center; margin-top: 1rem; font-size: 0.88rem; color: var(--dark-500);">
-        👆 <em>Interface real do sistema: gráficos dinâmicos de rosca e barras, KPIs executivos, taxa de poupança e listagem completa.</em>
+      
+      <p style="text-align: center; margin-top: 1.25rem; font-size: 0.9rem; color: var(--dark-500);">
+        👈 <strong>Use as setas ou clique nas bolinhas</strong> para navegar entre a planilha e as duas partes do dashboard! 👉
       </p>
     </div>
   </section>
@@ -299,6 +349,77 @@
       <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2z"/>
     </svg>
   </a>
+
+  <!-- SCRIPT DO CARROSSEL -->
+  <script>
+    (function initCarousel() {
+      const track = document.getElementById("carouselTrack");
+      const slides = document.querySelectorAll(".carousel-slide");
+      const dots = document.querySelectorAll("#carouselDots .dot");
+      const prevBtn = document.getElementById("carouselPrevBtn");
+      const nextBtn = document.getElementById("carouselNextBtn");
+      const stepPill = document.getElementById("carouselStepPill");
+      const urlBar = document.getElementById("carouselUrlBar");
+
+      if (!track || slides.length === 0) return;
+
+      let currentIndex = 0;
+      const totalSlides = slides.length;
+
+      const titles = [
+        "1/3: 0.planilha_financeira.xlsx (Entrada de Dados)",
+        "2/3: dashboard-financeiro-executivo.local/visao-geral-kpis",
+        "3/3: dashboard-financeiro-executivo.local/lancamentos-filtros"
+      ];
+
+      function goToSlide(index) {
+        if (index < 0) index = totalSlides - 1;
+        if (index >= totalSlides) index = 0;
+
+        currentIndex = index;
+        track.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+        dots.forEach((dot, i) => {
+          dot.classList.toggle("active", i === currentIndex);
+        });
+
+        if (stepPill) {
+          stepPill.textContent = `Passo ${currentIndex + 1} de ${totalSlides}`;
+        }
+        if (urlBar) {
+          urlBar.textContent = titles[currentIndex] || "";
+        }
+      }
+
+      prevBtn?.addEventListener("click", () => goToSlide(currentIndex - 1));
+      nextBtn?.addEventListener("click", () => goToSlide(currentIndex + 1));
+
+      dots.forEach((dot) => {
+        dot.addEventListener("click", () => {
+          const idx = parseInt(dot.getAttribute("data-index"), 10);
+          goToSlide(idx);
+        });
+      });
+
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowLeft") goToSlide(currentIndex - 1);
+        if (e.key === "ArrowRight") goToSlide(currentIndex + 1);
+      });
+
+      let touchStartX = 0;
+      let touchEndX = 0;
+
+      track.addEventListener("touchstart", (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      track.addEventListener("touchend", (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        if (touchStartX - touchEndX > 50) goToSlide(currentIndex + 1);
+        if (touchEndX - touchStartX > 50) goToSlide(currentIndex - 1);
+      }, { passive: true });
+    })();
+  </script>
 
 </body>
 </html>

@@ -697,3 +697,150 @@ body {
   70% { transform: scale(1.05); box-shadow: 0 0 0 14px rgba(37, 211, 102, 0); }
   100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
 }
+
+
+/* =============================================================
+   CARROSSEL DE DEMONSTRAÇÃO (PLANILHA + DASHBOARD)
+   ============================================================== */
+.carousel-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: #0B1013;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+  width: 100%;
+}
+
+.carousel-slide {
+  min-width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.carousel-slide img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  background: #0B1013;
+}
+
+.slide-caption {
+  background: linear-gradient(180deg, rgba(16, 24, 28, 0.95) 0%, rgba(11, 16, 19, 0.99) 100%);
+  color: var(--white);
+  padding: 1.25rem 1.8rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: left;
+}
+
+.slide-badge {
+  display: inline-block;
+  background: var(--income);
+  color: var(--white);
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.22rem 0.7rem;
+  border-radius: 4px;
+  margin-bottom: 0.45rem;
+}
+
+.slide-caption h4 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  color: var(--sand-200);
+}
+
+.slide-caption p {
+  font-size: 0.88rem;
+  color: var(--dark-200);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.carousel-step-pill {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--sand-300);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.25rem 0.8rem;
+  border-radius: 20px;
+  margin-left: auto;
+}
+
+/* Botões de navegação */
+.carousel-nav-btn {
+  position: absolute;
+  top: 45%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(14, 34, 45, 0.88);
+  backdrop-filter: blur(8px);
+  color: var(--white);
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+  z-index: 10;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+}
+
+.carousel-nav-btn:hover {
+  background: var(--income);
+  border-color: var(--white);
+  transform: translateY(-50%) scale(1.12);
+}
+
+.carousel-nav-btn.prev {
+  left: 16px;
+}
+
+.carousel-nav-btn.next {
+  right: 16px;
+}
+
+/* Dots / Indicadores */
+.carousel-dots-wrap {
+  padding-top: 1.25rem;
+  display: flex;
+  justify-content: center;
+}
+
+.carousel-dots {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.carousel-dots .dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--sand-500);
+  border: 2px solid transparent;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.25s ease;
+}
+
+.carousel-dots .dot:hover {
+  background: var(--sand-400);
+}
+
+.carousel-dots .dot.active {
+  background: var(--income);
+  transform: scale(1.3);
+  box-shadow: 0 0 10px rgba(31, 107, 82, 0.7);
+}
